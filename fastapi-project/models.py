@@ -1,7 +1,8 @@
 from pydantic import BaseModel
+from sqlmodel import SQLModel
 
 
-class CustomerBase(BaseModel):
+class CustomerBase(SQLModel):
     name: str
     description: str | None
     email: str
@@ -12,7 +13,8 @@ class CustomerCreate(CustomerBase):
     pass
 
 
-class Customer(CustomerBase):
+# se crea un sql model de customer base, heredando los demas campos y crea una tabla junto con id
+class Customer(CustomerBase, table=True):
     id: int | None = None
 
 

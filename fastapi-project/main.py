@@ -2,6 +2,7 @@ import zoneinfo
 from fastapi import FastAPI
 from datetime import datetime
 from models import Customer, CustomerCreate, Transaction, Invoice
+from db import SessionDep
 
 # app que contendra los endpoints
 app = FastAPI()
@@ -39,7 +40,7 @@ db_customer: list[Customer] = []
 
 # crear un costumer
 @app.post("/customers", response_model=Customer)  # pasarle el id del customer ya que create no lo mantiene
-async def create_customer(customer_data: CustomerCreate):
+async def create_customer(customer_data: CustomerCreate, session: SessionDep):
     # crear un customer pasando el dict de los datos
     customer = Customer.model_validate(customer_data.model_dump())
     # esto se elabora en la db
